@@ -1,7 +1,6 @@
 package pl.wposlednicka.weatherforecast;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -18,30 +17,9 @@ public class MapperTest {
 
     private WeatherDetailsOpenMeteoDTO weatherDetailsOpenMeteoDTO;
 
-    @Before
-    public void setUp(){
-        weatherDetailsOpenMeteoDTO = new WeatherDetailsOpenMeteoDTO();
-        Daily daily = new Daily();
-        daily.setSunrise(createSunrisesList());
-        daily.setSunset(createSunsetList());
-        daily.setPrecipitation_sum(List.of(0.6, 0.0));
-        weatherDetailsOpenMeteoDTO.setDaily(daily);
-    }
-
-    private List<LocalDateTime> createSunsetList(){
-        LocalDateTime sunsetOne = LocalDateTime.parse("2023-06-15T21:33");
-        LocalDateTime sunsetTwo = LocalDateTime.parse("2023-06-17T20:11");
-        return List.of(sunsetOne, sunsetTwo);
-    }
-
-    private List<LocalDateTime> createSunrisesList(){
-        LocalDateTime sunriseOne = LocalDateTime.parse("2023-06-15T04:33");
-        LocalDateTime sunriseTwo = LocalDateTime.parse("2023-06-17T05:11");
-        return List.of(sunriseOne, sunriseTwo);
-    }
-
     @Test
     public void shouldMapperWeatherForecastOpenMeteoDTOtoWeatherForecastDTO(){
+        createWeatherForecastOpenMeteoDTO();
         List<WeatherDetailsDTO> weatherDetailsDTOS = Mapper.mapToWeatherDetailsDTOList(weatherDetailsOpenMeteoDTO);
 
         WeatherDetailsDTO weatherOne = weatherDetailsDTOS.get(0);
@@ -56,4 +34,30 @@ public class MapperTest {
         Assert.assertEquals(weatherTwo.getSunset(), weatherDetailsOpenMeteoDTO.getDaily().getSunset().get(1).toLocalTime());
         Assert.assertEquals(weatherTwo.getPrecipitation(), weatherDetailsOpenMeteoDTO.getDaily().getPrecipitation_sum().get(1));
     }
+
+    private void createWeatherForecastOpenMeteoDTO(){
+        weatherDetailsOpenMeteoDTO = new WeatherDetailsOpenMeteoDTO();
+        weatherDetailsOpenMeteoDTO.setDaily(createDaily());
+    }
+
+    private Daily createDaily(){
+        Daily daily = new Daily();
+        daily.setSunrise(createSunrisesList());
+        daily.setSunset(createSunsetList());
+        daily.setPrecipitation_sum(List.of(0.6, 0.0));
+        return daily;
+    }
+
+    private List<LocalDateTime> createSunsetList(){
+        LocalDateTime sunsetOne = LocalDateTime.parse("2023-06-15T21:33");
+        LocalDateTime sunsetTwo = LocalDateTime.parse("2023-06-17T20:11");
+        return List.of(sunsetOne, sunsetTwo);
+    }
+
+    private List<LocalDateTime> createSunrisesList(){
+        LocalDateTime sunriseOne = LocalDateTime.parse("2023-06-15T04:33");
+        LocalDateTime sunriseTwo = LocalDateTime.parse("2023-06-17T05:11");
+        return List.of(sunriseOne, sunriseTwo);
+    }
+
 }
