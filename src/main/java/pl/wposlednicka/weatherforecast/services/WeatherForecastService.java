@@ -32,11 +32,20 @@ public class WeatherForecastService {
     }
 
     public  List<WeatherDetailsDTO> getPastDaysWeatherDetailsByLatitudeAndLongitude(Double latitude, Double longitude) {
-        WeatherDetailsEntity weatherDetailsEntity = createWeatherDetails(latitude, longitude);
-        weatherForecastRepository.save(weatherDetailsEntity);
+        saveWeatherDetails(latitude, longitude);
+        List<WeatherDetailsDTO> weatherDetailsDTO = getWeatherDetailsDTOS(latitude, longitude);
+        return weatherDetailsDTO;
+    }
+
+    private List<WeatherDetailsDTO> getWeatherDetailsDTOS(Double latitude, Double longitude) {
         WeatherDetailsOpenMeteoDTO weatherDetailsOpenMeteoDTO = getWeatherDetailsFromOpenMeteo(latitude, longitude);
         List<WeatherDetailsDTO> weatherDetailsDTO = Mapper.mapToWeatherDetailsDTOList(weatherDetailsOpenMeteoDTO);
         return weatherDetailsDTO;
+    }
+
+    private void saveWeatherDetails(Double latitude, Double longitude){
+        WeatherDetailsEntity weatherDetailsEntity = createWeatherDetails(latitude, longitude);
+        weatherForecastRepository.save(weatherDetailsEntity);
     }
 
     private WeatherDetailsEntity createWeatherDetails(Double latitude, Double longitude) {
