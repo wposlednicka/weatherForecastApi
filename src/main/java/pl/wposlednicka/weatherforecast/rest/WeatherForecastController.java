@@ -20,4 +20,11 @@ public class WeatherForecastController {
         return sevenDaysWeatherDetails;
     }
 
+    @GetMapping(value = "past/weatherdetails")
+    public @ResponseBody List<WeatherDetailsDTO> test(@RequestParam("latitude") Double latitude,
+                                                                                                 @RequestParam("longitude") Double longitude) {
+        List<WeatherDetailsDTO> sevenDaysWeatherDetails = weatherForecastService.getPastDaysWeatherDetailsByLatitudeAndLongitude(latitude, longitude);
+        return sevenDaysWeatherDetails;
+    }
+
 }
