@@ -60,5 +60,9 @@ public class WeatherForecastService {
         return openMeteoApiClient.getWeatherDetails(latitude, longitude, DAILY, SEVEN, ZERO, TIMEZONE);
     }
 
+    private WeatherDetailsOpenMeteoDTO test(Double latitude, Double longitude) {
+        return openMeteoApiClient.getWeatherDetails(latitude, longitude, DAILY, SEVEN, ZERO, TIMEZONE);
+    }
+
 
 }
