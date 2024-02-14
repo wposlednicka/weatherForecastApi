@@ -34,4 +34,8 @@ public class WeatherForecastController {
         return sevenDaysWeatherDetails;
     }
 
+    public void test(){
+
+    }
+
 }
